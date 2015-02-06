@@ -8,7 +8,7 @@ library(package = dplyr)    # data.frames manipulation
 source("./scripts/common_elements.R")
 
 # Get data
-readRDS(file = "./data/data.Rds")
+source("./scripts/get_data.R")
 
 shinyServer(function(input, output) {
   output$plot <- renderPlot({
