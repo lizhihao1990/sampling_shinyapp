@@ -1,5 +1,5 @@
 # Elements common to the UI and the server
-source("common_elements.R")
+source("./scripts/common_elements.R")
 
 # Define UI elements
 shinyUI(

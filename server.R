@@ -5,11 +5,10 @@ library(package = magrittr) # Piping
 library(package = dplyr)    # data.frames manipulation
 
 # Elements common to the UI and the server
-source("common_elements.R")
-
+source("./scripts/common_elements.R")
 
 # Get data
-readRDS(file = "data.Rds")
+readRDS(file = "./data/data.Rds")
 
 shinyServer(function(input, output) {
   output$plot <- renderPlot({
