@@ -21,7 +21,7 @@ shinyServer(function(input, output) {
     poverty_range <- round(poverty_range, 2)
     poverty_range <- poverty_range[poverty_range>=0 & poverty_range<=5]
     
-    use_data <- data %>%
+    use_data <- nhanes_data %>%
       filter(poverty_ratio %in% poverty_range) %>%
       mutate(pov = input$pov,
              alpha = abs(pov - poverty_ratio),
@@ -41,7 +41,7 @@ shinyServer(function(input, output) {
            fill = input$colorvar) +
       scale_fill_brewer(palette = "Set1") +
       scale_size_manual(values=c(2,4)) +
-      ylim(range(data[, yvar])) +
+      ylim(range(nhanes_data[, yvar])) +
       theme_light() +
       theme(legend.position = "bottom",
             legend.background = element_rect(fill = "gray95"))
@@ -56,7 +56,7 @@ shinyServer(function(input, output) {
       inter_plot <- inter_plot +
         geom_jitter(shape=21, color=NA,
                     aes_string(alpha="alpha", size = "size", fill=colorvar)) +
-        xlim(range(data[, xvar]))
+        xlim(range(nhanes_data[, xvar]))
     }
     
     if(input$sample){

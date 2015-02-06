@@ -7,8 +7,8 @@ library(package = dplyr)    # data.frames manipulation
 
 
 # Load RDS if available
-if(file.exists("./data/data.Rds")){
-  readRDS(file = "./data/data.Rds")
+if(file.exists("./data/nhanes_data.Rds")){
+  nhanes_data <- readRDS(file = "./data/nhanes_data.Rds")
 } else {
   # Download the raw data if unavailable
   if(!all(file.exists(c("./data/DEMO_G.XPT",
@@ -101,19 +101,19 @@ if(file.exists("./data/data.Rds")){
   
   
   
-  data <- demographics[-1,] %>%
+  nhanes_data <- demographics[-1,] %>%
     inner_join(nutrients_d1) %>%
     mutate(age_group = cut(age, seq(0, 80, by=10),
                            right = FALSE, ordered_result=TRUE)) %>%
     tbl_df
   
-  srs_size <- samp_si(nrow(data))
-  prob_srs <- srs_size/nrow(data)
+  srs_size <- samp_si(nrow(nhanes_data))
+  prob_srs <- srs_size/nrow(nhanes_data)
   
   
   set.seed(2014-10-06)
   
-  data <- data %>%
+  nhanes_data <- nhanes_data %>%
     mutate(pov_group = factor(cut(poverty_ratio, breaks = 0:5, right = FALSE,
                                   labels = pov_groups),
                               labels = pov_groups, ordered = TRUE),
@@ -121,35 +121,35 @@ if(file.exists("./data/data.Rds")){
                           breaks = c(0, quantile(energy, probs = (1:8)/9),
                                      max(energy)),
                           labels=LETTERS[1:9]),
-           srs = sample_group(n(), nrow(data))) %>%
+           srs = sample_group(n(), nrow(nhanes_data))) %>%
     group_by(location) %>%
-    mutate(strat = sample_group(n(), nrow(data))) %>%
+    mutate(strat = sample_group(n(), nrow(nhanes_data))) %>%
     ungroup 
   
   
   # Choose some conglomerates
   n <- 4
-  clusters <-  sample(x = names(table(data$age_group)), size = n)
+  clusters <-  sample(x = names(table(nhanes_data$age_group)), size = n)
   
   # Sample selected conglomerates
-  data <- filter(data, age_group %in% clusters) %>%
+  nhanes_data <- filter(nhanes_data, age_group %in% clusters) %>%
     group_by(age_group) %>%
-    mutate(clust = sample_group(n(), nrow(data), clusters=length(clusters))) %>%
+    mutate(clust = sample_group(n(), nrow(nhanes_data), clusters=length(clusters))) %>%
     ungroup %>%
-    rbind(filter(mutate(data, clust=FALSE), !age_group %in% clusters))
+    rbind(filter(mutate(nhanes_data, clust=FALSE), !age_group %in% clusters))
   
   
   # Disproportionate stratified sampling (few immigrants)
-  data <- filter(data, status == "immigrant") %>%
+  nhanes_data <- filter(nhanes_data, status == "immigrant") %>%
     group_by(status) %>%
-    mutate(strat_dis = sample_group(n(), nrow(data), 2)) %>%
+    mutate(strat_dis = sample_group(n(), nrow(nhanes_data), 2)) %>%
     ungroup %>%
-    rbind(mutate(filter(data, status == "citizen"),
-                 strat_dis = sample_group(n(), nrow(data), 2)))
+    rbind(mutate(filter(nhanes_data, status == "citizen"),
+                 strat_dis = sample_group(n(), nrow(nhanes_data), 2)))
   
   # Cleanup the workspace
-  rm(list = setdiff(ls(), "data"))
+  rm(list = setdiff(ls(), "nhanes_data"))
   
   # And save the RDS for app use
-  saveRDS(object = data, file = "./data/data.Rds")
+  saveRDS(object = nhanes_data, file = "./data/nhanes_data.Rds")
 }
