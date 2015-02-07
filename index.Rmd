@@ -49,7 +49,7 @@ cat("<div style='float:left;width:78%;'>")
 
 <ul>
 <li><p>More sampling strategies and some theory / math behind each sampling strategy</p></li>
-<li><p>More example data, such as the <code>quakes</code> dataset which is shipped with base R and shown below using the <code>rCharts</code> package:</p></li>
+<li><p>More example data, such as the <code>quakes</code> dataset which is shipped with base R and a sample shown below using the <code>rCharts</code> package:</p></li>
 </ul>
 
 ```{r ichart, results = 'asis', echo = FALSE, message = FALSE, cache=FALSE}
@@ -60,7 +60,8 @@ datasets <- as.data.frame(data()$results, stringsAsFactors = FALSE) %>%
     filter(Item %in% c("airquality", "quakes", "faithful"))
 
 haireye = as.data.frame(HairEyeColor)
-n1 <- dTable(quakes, iDisplayLength = 5,
+n1 <- dTable(quakes[sample(1:nrow(quakes), 100), ],
+             iDisplayLength = 5,
              bLengthChange = FALSE,
              bFilter = FALSE)
 
