@@ -28,6 +28,13 @@ This app was prepared as a course project for the [Developing data products](htt
 
 It was designed for use as a resource to visually explain some common survey sampling methodologies in a lecture I am sometimes invited to give in a research methodologies course at the university I work in.
 
+For now it just uses one dataset, but it could include more of the datasets available in R:
+
+```{r results='markup'}
+head(x = as.data.frame(data()$results)[,-(1:2)], n = 3)
+```
+
+
 You can access the source code for the application in a [github repo](https://github.com/odeleongt/sampling_shinyapp). The source code for this presentation is found on the `gh-pages` branch of that same repository.
 
 
