@@ -10,7 +10,7 @@ url:
 #  lib: ../../libraries
   lib: ../../librariesNew
   assets: ../../assets
-widgets     : [mathjax, quiz, bootstrap]
+widgets     : [quiz, bootstrap]
 mode        : selfcontained # {standalone, draft}
 ---
 
