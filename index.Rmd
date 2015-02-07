@@ -79,7 +79,7 @@ n1 &lt;- dTable(quakes[sample(1:nrow(quakes), 100), ],
 n1$print(&#39;chart1&#39;)
 </code></pre>
 </div>
-<div style='float:right;width:49%;'>
+<div style='float:right;width:45%;'>
 
 ```{r table, message = FALSE, echo = FALSE, cache=FALSE}
 library(package = rCharts)
