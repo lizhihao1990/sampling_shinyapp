@@ -5,7 +5,7 @@ author      : Oscar de León
 job         : Developing data products
 framework   : io2012
 hitheme     : tomorrow 
-mode        : standalone
+mode        : selfcontained
 ---
 
 ## What is this application for?
