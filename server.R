@@ -17,18 +17,8 @@ shinyServer(function(input, output) {
     colorvar <- aes_vars$name[aes_vars$label==input$colorvar]
     samp_strat <- samp_strats$name[samp_strats$label==input$samp_strat]
     
-    poverty_range <- seq(input$pov - input$buf, input$pov + input$buf, by=0.01)
-    poverty_range <- round(poverty_range, 2)
-    poverty_range <- poverty_range[poverty_range>=0 & poverty_range<=5]
-    
     use_data <- nhanes_data %>%
-      filter(poverty_ratio %in% poverty_range) %>%
-      mutate(pov = input$pov,
-             alpha = abs(pov - poverty_ratio),
-             alpha = (1 - (alpha / max(alpha)))^2,
-             size = as.logical(status == "immigrant"))
-    
-    if(colorvar=="pov_group" & input$facet) use_data$alpha <- 10
+      mutate(size = as.logical(status == "immigrant"))
     
     if(!input$emph) use_data$size <- TRUE
     
@@ -36,7 +26,7 @@ shinyServer(function(input, output) {
     inter_plot <- 
       ggplot(data=use_data,
              aes_string(x = xvar, y=yvar)) +
-      guides(alpha="none", size="none") +
+      guides(size="none") +
       labs(x = input$xvar, y = input$yvar,
            fill = input$colorvar) +
       scale_fill_brewer(palette = "Set1") +
@@ -49,13 +39,13 @@ shinyServer(function(input, output) {
     if(input$facet){
       inter_plot <- inter_plot +
         geom_jitter(shape=21, color=NA, fill = "black",
-                    aes_string(alpha="alpha", size = "size")) +
+                    aes_string(size = "size")) +
         facet_grid(facets = paste(". ~", colorvar),
                    scales = "free_x", space = "free_x")
     } else {
       inter_plot <- inter_plot +
         geom_jitter(shape=21, color=NA,
-                    aes_string(alpha="alpha", size = "size", fill=colorvar)) +
+                    aes_string(size = "size", fill=colorvar)) +
         xlim(range(nhanes_data[, xvar]))
     }
     

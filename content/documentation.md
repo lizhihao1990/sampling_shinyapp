@@ -20,8 +20,6 @@ You can use the application in the "Application" tab below the title. Follows a 
 
 **Emphasize immigrant status** checkbox: There are some immigrants in this population, enable this checkbox to highlight them using bigger points.
 
-**Sliders**: To focus the visualization around some poverty index.
-
 
 ### The dataset
 
