@@ -1,5 +1,6 @@
 # Used packages
 library(package = ggplot2)  # Graphics
+library(package = markdown) # Process md files
 library(package = tidyr)    # Re structure data
 library(package = magrittr) # Piping
 library(package = dplyr)    # data.frames manipulation
