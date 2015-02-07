@@ -13,12 +13,23 @@ ext_widgets : {rCharts: "libraries/nvd3"}
 
 - Overview
 
+This shiny application is intended as a didactic tool to help visualize some sampling strategies. A dataset is provided and a responsive interface presented to explore some variables and visualize which elements get selected.
+
+The application provides examples of sampling strategies commonly used in surveys. The dataset itself represents a sample of the US population, but for the purposes of this application is presented as data on a complete fictious population (which wierdly resembles the US population).
+
+The data comes from the National Health and Nutrition Examination Survey. It includes 4000 observations about demographic information (age, sex, poverty status) and dietary practices (daily energy [calories], protein, carbs and fat intake) of US individuals.
+
+You can access the app in [https://odeleon.shinyapps.io/sampling/](https://odeleon.shinyapps.io/sampling/).
 
 ---
 
 ## Who can use this application
 
-- Audience
+This app was prepared as a course project for the [Developing data products](https://www.coursera.org/course/devdataprod) course.
+
+It was designed for use as a resource to visually explain some common survey sampling methodologies in a lecture I am sometimes invited to give in a research methodologies course at the university I work in.
+
+You can access the source code for the application in a [github repo](https://github.com/odeleongt/sampling_shinyapp). The source code for this presentation is found on the `gh-pages` branch of that same repository.
 
 
 ---
@@ -26,6 +37,20 @@ ext_widgets : {rCharts: "libraries/nvd3"}
 ## Examples
 
 - Use cases
+
+```{r ichart, results = 'asis', echo = FALSE, message = FALSE}
+require(rCharts)
+haireye = as.data.frame(HairEyeColor)
+n1 <- nPlot(Freq ~ Hair, 
+  group = 'Eye',
+  data = subset(haireye, Sex == 'Male'),
+  type = 'multiBarChart'
+)
+n1$print('chart1')
+```
+
+
+
 
 ---
 
