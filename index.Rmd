@@ -6,6 +6,7 @@ job         : Developing data products
 framework   : io2012
 hitheme     : tomorrow 
 mode        : selfcontained
+ext_widgets : {rCharts: "libraries/nvd3"}
 ---
 
 ## What is this application for?
