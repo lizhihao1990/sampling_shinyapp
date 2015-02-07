@@ -2,6 +2,8 @@
 
 This shiny application is intended as a didactic tool to help visualize some sampling strategies. A dataset is provided and a responsive interface presented to explore some variables and visualize which elements get selected.
 
+You can find a presentation in [this repo's github pages](https://odeleongt.github.io/sampling_shinyapp). A demo of the app is available in [shinyapps.io](http://odeleon.shinyapps.io/sampling).
+
 
 ### Constraints on the application
 
