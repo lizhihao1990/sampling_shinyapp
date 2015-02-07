@@ -4,7 +4,8 @@ subtitle    : An aid to explain sampling strategies
 author      : Oscar de León
 job         : Developing data products
 framework   : io2012
-hitheme     : tomorrow 
+highlighter : highlight.js
+hitheme     : GitHub 
 mode        : selfcontained
 ext_widgets : {rCharts: "libraries/dataTables"}
 ---
@@ -15,13 +16,13 @@ This shiny application is intended as a didactic tool to help visualize some sam
 
 The application provides examples of sampling strategies commonly used in surveys. The dataset itself represents a sample of the US population, but for the purposes of this application is presented as data on a complete fictious population (which wierdly resembles the US population).
 
-The data comes from the National Health and Nutrition Examination Survey. It includes 4000 observations about demographic information (age, sex, poverty status) and dietary practices (daily energy [calories], protein, carbs and fat intake) of US individuals.
+The data comes from the [National Health and Nutrition Examination Survey](http://wwwn.cdc.gov/nchs/nhanes/search/nhanes11_12.aspx). It includes 4000 observations about demographic information (age, sex, poverty status) and dietary practices (daily energy [calories], protein, carbs and fat intake) of US individuals.
 
 You can access the app in [https://odeleon.shinyapps.io/sampling/](https://odeleon.shinyapps.io/sampling/).
 
 ---
 
-## Who can use this application
+## What can you expect from this application
 
 This app was prepared as a course project for the [Developing data products](https://www.coursera.org/course/devdataprod) course.
 
@@ -32,9 +33,11 @@ You can access the source code for the application in a [github repo](https://gi
 
 ---
 
-## Examples
+The application has widgets to select which variables are mapped to the plot axes and point color (or plot facet), and to select the sampling strategy to visualize and enable highlighting of "selected individuals".
 
-- Use cases
+Follows an image depicting a plot obtained from the application, showing the "population" faceted by poverty level, with red circles highlighting the individuals selected by simple random sampling:
+
+![Example plot](./content/example.png)
 
 ---
 
@@ -52,8 +55,31 @@ You can access the source code for the application in a [github repo](https://gi
 
 </div>
 <div style='float:right;width:18.5%;border:3px solid red;'>
-<b>Vote on the poll!</b><div style='height:3px'></div>
-<form method="post" action="http://poll.pollcode.com/62814758"> <div style="background-color:#EEEEEE;padding:2px;width:175px;font-family:Arial;font-size:small;color:#000000;"> <div style="padding:2px 0px 4px 2px;"><strong>Which dataset will be included next?</strong></div>  <input type="radio" name="answer" value="1" id="answer628147581" style="float:left;" /> <label for="answer628147581" style="float:left;width:150px;">airquality</label> <div style="clear:both;height:2px;"></div>  <input type="radio" name="answer" value="2" id="answer628147582" style="float:left;" /> <label for="answer628147582" style="float:left;width:150px;">quakes</label> <div style="clear:both;height:2px;"></div>  <input type="radio" name="answer" value="3" id="answer628147583" style="float:left;" /> <label for="answer628147583" style="float:left;width:150px;">faithful</label> <div style="clear:both;height:2px;"></div>  <div align="center" style="padding:3px;"> <input type="submit" value=" Vote "> </div>  </div></form></div>
+<b>Vote on the poll!</b><div style='height:10px'></div>
+
+<form method="post" action="http://poll.pollcode.com/62814758"> <div style="background-color:#EEEEEE;padding:2px;width:175px;font-family:Arial;font-size:small;color:#000000;"> <div style="padding:2px 0px 4px 2px;"><strong><b>Which dataset will be included next?</b></strong></div>  <input type="radio" name="answer" value="1" id="answer628147581" style="float:left;" /> <label for="answer628147581" style="float:left;width:150px;">airquality</label> <div style="clear:both;height:2px;"></div>  <input type="radio" name="answer" value="2" id="answer628147582" style="float:left;" /> <label for="answer628147582" style="float:left;width:150px;">quakes</label> <div style="clear:both;height:2px;"></div>  <input type="radio" name="answer" value="3" id="answer628147583" style="float:left;" /> <label for="answer628147583" style="float:left;width:150px;">faithful</label> <div style="clear:both;height:2px;"></div>  <div align="center" style="padding:3px;"> <input type="submit" value=" Vote "> </div>  </div></form>
+
+</div>
+
+
+</div>
+<div style='float:left;width:51%;'>
+
+<pre><code style='font-size: 80%;'>library(package = rCharts)
+n1 &lt;- dTable(quakes[sample(1:nrow(quakes), 100), ],
+             iDisplayLength = 5,
+             bLengthChange = FALSE,
+             bFilter = FALSE,
+             bInfo = FALSE,
+             width = &quot;100%&quot;)
+n1$print(&#39;chart1&#39;)
+</code></pre>
+</div>
+<div style='float:right;width:49%;'>
+
+
+
+
 <table id = 'chart1' class = 'rChart datatables'></table>
 <script type="text/javascript" charset="utf-8">
   var chartParamschart1 = {
@@ -63,592 +89,39 @@ You can access the source code for the application in a [github repo](https://gi
 "table": {
  "aaData": [
  [
- -23.07,
-184.03,
-89,
-   4.7,
-32 
-],
-[
- -20.32,
-180.88,
-680,
-   4.2,
-22 
-],
-[
-  -31.8,
- 180.6,
-178,
-   4.5,
-19 
-],
-[
- -13.56,
-166.49,
-83,
-   4.5,
-25 
-],
-[
-  -23.8,
- 184.7,
-42,
-     5,
-36 
-],
-[
- -23.36,
-180.01,
-553,
-   5.3,
-61 
-],
-[
- -13.16,
-167.24,
-278,
-   4.3,
-17 
-],
-[
-  -18.8,
-182.41,
-385,
-   5.2,
-67 
-],
-[
- -19.14,
-184.36,
-269,
-   4.7,
-31 
-],
-[
- -15.03,
-182.29,
-399,
-   4.1,
-10 
-],
-[
- -23.46,
-180.17,
-541,
+ -20.89,
+181.25,
+599,
    4.6,
-32 
+20 
 ],
 [
- -15.31,
- 186.1,
-96,
-   4.6,
-32 
-],
-[
- -20.77,
-181.16,
-568,
-   4.2,
-12 
-],
-[
- -16.21,
-186.52,
-111,
-   4.8,
-30 
-],
-[
- -19.15,
- 169.5,
-150,
-   4.2,
-12 
-],
-[
- -22.63,
-180.31,
-598,
-   4.4,
-18 
-],
-[
- -19.26,
-184.42,
-223,
+ -18.14,
+181.71,
+574,
      4,
-15 
+20 
 ],
 [
- -15.77,
-167.01,
-64,
-   5.5,
-73 
-],
-[
- -25.04,
-180.97,
-393,
-   4.2,
-21 
-],
-[
- -21.46,
-181.02,
-584,
-   4.2,
-18 
-],
-[
- -12.01,
-166.66,
-99,
-   4.8,
-36 
-],
-[
-  -19.9,
- 178.9,
-81,
-   4.3,
-11 
-],
-[
-  -14.7,
-   166,
-48,
-   5.3,
-16 
-],
-[
- -23.92,
-184.47,
-40,
-   4.7,
-17 
-],
-[
- -16.62,
-186.74,
-82,
-   4.8,
-51 
-],
-[
- -19.22,
-182.43,
-571,
-   4.5,
-23 
-],
-[
- -30.69,
- 182.1,
-62,
-   4.9,
-25 
-],
-[
- -18.18,
-180.63,
-639,
-   4.6,
-39 
-],
-[
- -17.64,
-177.01,
-545,
-   5.2,
-91 
-],
-[
-  -32.2,
-179.61,
-422,
-   4.6,
-41 
-],
-[
- -15.66,
- 186.8,
-45,
-   4.4,
-11 
-],
-[
- -18.11,
-181.67,
-597,
-   4.6,
-28 
-],
-[
- -19.68,
-184.31,
-195,
-     4,
-12 
+ -34.68,
+179.82,
+75,
+   5.6,
+79 
 ],
 [
   -20.1,
-182.16,
-489,
-   4.2,
-16 
-],
-[
- -12.25,
- 166.6,
-219,
-     5,
-28 
-],
-[
-  -19.5,
- 186.9,
-58,
-   4.4,
-20 
-],
-[
- -23.95,
- 182.8,
-199,
+ 186.3,
+63,
    4.6,
-14 
-],
-[
-  -21.8,
- 183.2,
-325,
-   4.4,
 19 
 ],
 [
- -17.93,
-167.89,
-49,
-   5.1,
-43 
-],
-[
- -24.57,
- 178.4,
-562,
-   5.6,
-80 
-],
-[
- -21.52,
-169.75,
-61,
-   5.1,
-40 
-],
-[
- -18.12,
-181.71,
-594,
-   4.6,
-24 
-],
-[
- -19.45,
-184.48,
-246,
-   4.3,
-15 
-],
-[
-  -19.7,
-182.44,
-397,
-     4,
-12 
-],
-[
-  -32.6,
- 180.9,
-57,
-   4.7,
-44 
-],
-[
-  -20.9,
- 181.9,
-556,
-   4.4,
-17 
-],
-[
-  -23.5,
-179.78,
-570,
-   4.4,
-13 
-],
-[
-  -29.5,
-182.31,
-129,
-   4.4,
-14 
-],
-[
- -18.54,
-182.11,
-554,
-   4.4,
-19 
-],
-[
- -17.68,
-181.36,
-515,
-   4.1,
-19 
-],
-[
-  -24.1,
- 184.5,
-68,
-   4.7,
-23 
-],
-[
-  -21.3,
-180.92,
-617,
+  -17.9,
+181.41,
+586,
    4.5,
-26 
-],
-[
- -24.78,
-179.22,
-492,
-   4.3,
-16 
-],
-[
- -14.65,
-166.97,
-82,
-   4.8,
-28 
-],
-[
- -17.72,
- 180.3,
-595,
-   5.2,
-74 
-],
-[
- -20.07,
-169.14,
-66,
-   4.8,
-37 
-],
-[
- -19.36,
-186.36,
-100,
-   4.7,
-40 
-],
-[
- -19.72,
-169.71,
-271,
-   4.2,
-14 
-],
-[
-    -18,
-180.62,
-636,
-     5,
-100 
-],
-[
- -24.33,
-179.97,
-510,
-   4.8,
-44 
-],
-[
-  -17.6,
- 181.5,
-548,
-   4.1,
-10 
-],
-[
- -22.09,
-180.38,
-590,
-   4.9,
-35 
-],
-[
- -22.28,
-183.52,
-90,
-   4.7,
-19 
-],
-[
- -13.84,
-170.62,
-638,
-   4.6,
-20 
-],
-[
- -21.44,
-180.69,
-583,
-   4.4,
-13 
-],
-[
- -18.89,
-184.46,
-242,
-   4.8,
-36 
-],
-[
- -20.62,
-181.03,
-650,
-   4.2,
-15 
-],
-[
-  -20.7,
-169.92,
-139,
-   6.1,
-94 
-],
-[
-  -19.4,
-180.94,
-664,
-   4.7,
-34 
-],
-[
-  -26.2,
-178.35,
-606,
-   4.4,
-21 
-],
-[
- -19.06,
-169.01,
-158,
-   4.4,
-10 
-],
-[
- -25.42,
-182.65,
-102,
-     5,
-36 
-],
-[
-  -21.4,
-180.74,
-613,
-   4.2,
-20 
-],
-[
- -18.85,
-187.55,
-44,
-   4.8,
-35 
-],
-[
- -22.54,
-172.91,
-54,
-   5.5,
-71 
-],
-[
- -19.68,
-184.14,
-242,
-   4.8,
-40 
-],
-[
- -22.33,
-171.46,
-119,
-   4.7,
-32 
-],
-[
- -19.34,
-182.62,
-573,
-   4.5,
-32 
-],
-[
- -16.44,
-185.74,
-126,
-   4.7,
-30 
-],
-[
-  -22.9,
- 183.8,
-71,
-   4.3,
-19 
-],
-[
- -34.63,
- 179.1,
-278,
-   4.7,
-24 
-],
-[
- -20.18,
-181.62,
-558,
-   4.5,
-31 
-],
-[
-  -24.2,
- 179.2,
-530,
-   4.3,
-12 
-],
-[
- -20.75,
-184.52,
-144,
-   4.3,
-25 
+33 
 ],
 [
  -21.05,
@@ -658,6 +131,307 @@ You can access the source code for the application in a [github repo](https://gi
 10 
 ],
 [
+ -24.39,
+178.98,
+562,
+   4.5,
+30 
+],
+[
+ -21.44,
+180.69,
+583,
+   4.4,
+13 
+],
+[
+ -21.53,
+170.52,
+129,
+   5.2,
+30 
+],
+[
+ -25.04,
+179.84,
+474,
+   4.6,
+32 
+],
+[
+ -19.02,
+184.23,
+270,
+   5.1,
+72 
+],
+[
+  -14.3,
+167.32,
+208,
+   4.8,
+25 
+],
+[
+ -17.44,
+181.33,
+545,
+   4.2,
+37 
+],
+[
+  -22.7,
+ 170.3,
+69,
+   4.8,
+27 
+],
+[
+  -22.1,
+179.71,
+579,
+   5.1,
+58 
+],
+[
+ -16.28,
+166.94,
+50,
+   4.6,
+24 
+],
+[
+ -23.81,
+179.36,
+521,
+   4.2,
+23 
+],
+[
+ -17.95,
+ 181.5,
+593,
+   4.3,
+16 
+],
+[
+ -15.17,
+ 187.2,
+50,
+   4.7,
+28 
+],
+[
+ -18.12,
+181.88,
+649,
+   5.4,
+88 
+],
+[
+ -23.45,
+180.23,
+520,
+   4.2,
+19 
+],
+[
+ -24.81,
+   180,
+452,
+   4.3,
+19 
+],
+[
+ -15.36,
+167.51,
+123,
+   4.7,
+28 
+],
+[
+ -18.85,
+187.55,
+44,
+   4.8,
+35 
+],
+[
+ -19.34,
+186.59,
+56,
+   5.2,
+49 
+],
+[
+ -22.37,
+ 171.5,
+116,
+   4.9,
+38 
+],
+[
+ -17.68,
+181.36,
+515,
+   4.1,
+19 
+],
+[
+ -14.31,
+ 173.5,
+614,
+   4.2,
+23 
+],
+[
+ -29.91,
+181.43,
+205,
+   4.4,
+34 
+],
+[
+ -23.58,
+180.17,
+462,
+   5.3,
+63 
+],
+[
+ -32.14,
+ 179.9,
+406,
+   4.3,
+19 
+],
+[
+ -34.12,
+181.75,
+75,
+   4.7,
+41 
+],
+[
+ -30.04,
+ 181.2,
+49,
+   4.8,
+20 
+],
+[
+ -17.88,
+180.58,
+622,
+   4.2,
+23 
+],
+[
+ -23.34,
+ 184.5,
+56,
+   5.7,
+106 
+],
+[
+ -25.14,
+178.42,
+554,
+   4.1,
+15 
+],
+[
+ -20.66,
+185.77,
+69,
+   4.3,
+25 
+],
+[
+  -23.9,
+ 184.6,
+41,
+   4.5,
+22 
+],
+[
+ -20.72,
+181.41,
+595,
+   4.6,
+36 
+],
+[
+ -20.82,
+181.67,
+577,
+     5,
+67 
+],
+[
+ -18.89,
+184.46,
+242,
+   4.8,
+36 
+],
+[
+ -14.65,
+166.97,
+82,
+   4.8,
+28 
+],
+[
+ -15.55,
+185.05,
+292,
+   4.8,
+42 
+],
+[
+  -26.2,
+178.35,
+606,
+   4.4,
+21 
+],
+[
+ -25.04,
+ 180.1,
+481,
+   4.3,
+15 
+],
+[
+ -19.92,
+183.91,
+264,
+   4.2,
+23 
+],
+[
+ -20.77,
+183.71,
+251,
+   4.4,
+47 
+],
+[
+ -18.11,
+181.63,
+568,
+   4.3,
+36 
+],
+[
+ -17.67,
+187.09,
+45,
+   4.9,
+62 
+],
+[
  -17.97,
 181.66,
 626,
@@ -665,102 +439,354 @@ You can access the source code for the application in a [github repo](https://gi
 19 
 ],
 [
-  -17.4,
- 187.8,
+  -24.5,
+180.92,
+377,
+   4.8,
+43 
+],
+[
+ -20.31,
+184.06,
+249,
+   4.4,
+21 
+],
+[
+ -17.93,
+167.89,
+49,
+   5.1,
+43 
+],
+[
+ -38.46,
+176.03,
+148,
+   4.6,
+44 
+],
+[
+ -19.13,
+184.97,
+210,
+   4.1,
+22 
+],
+[
+ -35.48,
+ 179.9,
+59,
+   4.8,
+35 
+],
+[
+ -18.64,
+169.32,
+260,
+   4.6,
+23 
+],
+[
+  -34.2,
+179.43,
 40,
-   4.5,
+     5,
+37 
+],
+[
+ -11.49,
+166.22,
+84,
+   4.6,
+32 
+],
+[
+ -18.83,
+182.26,
+575,
+   4.3,
+11 
+],
+[
+  -11.8,
+ 165.8,
+112,
+   4.2,
+20 
+],
+[
+  -18.8,
+169.21,
+221,
+   4.4,
+16 
+],
+[
+ -20.45,
+181.85,
+534,
+   4.1,
 14 
 ],
 [
- -24.09,
-179.68,
-538,
+ -15.78,
+167.44,
+40,
+   4.8,
+42 
+],
+[
+ -18.92,
+169.37,
+248,
+   5.3,
+60 
+],
+[
+  -17.2,
+ 182.9,
+383,
+   4.1,
+11 
+],
+[
+ -15.31,
+ 186.1,
+96,
+   4.6,
+32 
+],
+[
+ -20.93,
+181.54,
+564,
+     5,
+64 
+],
+[
+ -18.07,
+181.54,
+546,
+   4.3,
+28 
+],
+[
+ -14.85,
+167.24,
+97,
+   4.5,
+26 
+],
+[
+  -20.4,
+ 186.1,
+74,
+   4.3,
+22 
+],
+[
+ -21.07,
+181.13,
+594,
+   4.9,
+43 
+],
+[
+ -21.34,
+181.41,
+464,
+   4.5,
+21 
+],
+[
+ -16.45,
+177.77,
+138,
+   4.6,
+17 
+],
+[
+ -18.14,
+180.87,
+624,
+   5.5,
+105 
+],
+[
+ -15.97,
+186.08,
+143,
+   4.6,
+41 
+],
+[
+ -23.85,
+182.53,
+204,
+   4.6,
+27 
+],
+[
+ -25.23,
+179.86,
+476,
+   4.4,
+29 
+],
+[
+  -23.9,
+ 179.9,
+579,
+   4.4,
+16 
+],
+[
+ -30.63,
+ 180.9,
+334,
+   4.2,
+28 
+],
+[
+ -27.38,
+182.39,
+69,
+   4.5,
+12 
+],
+[
+ -17.94,
+181.51,
+601,
+     4,
+16 
+],
+[
+ -20.81,
+185.01,
+79,
+   4.7,
+42 
+],
+[
+ -16.09,
+184.89,
+304,
+   4.6,
+34 
+],
+[
+ -21.92,
+ 182.8,
+273,
+   5.3,
+78 
+],
+[
+ -19.44,
+ 183.5,
+293,
+   4.2,
+15 
+],
+[
+ -17.42,
+185.16,
+206,
+   4.5,
+22 
+],
+[
+ -26.16,
+ 179.5,
+492,
+   4.5,
+25 
+],
+[
+ -23.47,
+180.21,
+553,
+   4.2,
+23 
+],
+[
+ -16.44,
+185.74,
+126,
+   4.7,
+30 
+],
+[
+ -17.66,
+ 181.4,
+585,
+   4.1,
+17 
+],
+[
+ -32.42,
+181.21,
+47,
+   4.9,
+39 
+],
+[
+  -26.6,
+182.77,
+119,
+   4.5,
+29 
+],
+[
+  -19.6,
+184.53,
+199,
    4.3,
 21 
 ],
 [
- -18.89,
-169.42,
-239,
-   4.5,
-27 
-],
-[
- -21.57,
-185.62,
-66,
-   4.9,
-38 
-],
-[
-    -22,
- 185.5,
-52,
-   4.4,
-18 
-],
-[
-    -22,
-180.52,
-561,
-   4.5,
-19 
-],
-[
- -23.11,
-179.15,
-564,
-   4.7,
-17 
-],
-[
-  -26.5,
-178.29,
-609,
+ -26.53,
+178.57,
+600,
      5,
-50 
+69 
 ],
 [
- -38.59,
- 175.7,
-162,
+ -21.71,
+183.58,
+234,
    4.7,
-36 
+55 
 ],
 [
- -12.37,
-166.93,
-291,
-   4.2,
-16 
+ -11.81,
+165.98,
+51,
+   4.7,
+28 
 ],
 [
-    -22,
-180.53,
-583,
+ -14.85,
+184.87,
+294,
+   4.1,
+10 
+],
+[
+ -21.29,
+ 185.8,
+69,
    4.9,
-20 
+74 
 ],
 [
- -21.91,
-181.28,
-548,
-   4.5,
-30 
-],
-[
- -20.47,
-185.68,
-93,
-   5.4,
-85 
-],
-[
- -19.73,
- 182.4,
-375,
-     4,
-18 
+ -26.06,
+180.05,
+432,
+   4.2,
+19 
 ] 
 ],
 "aoColumns": [
@@ -782,7 +808,9 @@ You can access the source code for the application in a [github repo](https://gi
 ],
 "iDisplayLength":      5,
 "bLengthChange": false,
-"bFilter": false 
+"bFilter": false,
+"bInfo": false,
+"width": "100%" 
 },
 "id": "chart1" 
 }

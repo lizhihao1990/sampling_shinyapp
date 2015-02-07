@@ -4,7 +4,8 @@ subtitle    : An aid to explain sampling strategies
 author      : Oscar de León
 job         : Developing data products
 framework   : io2012
-hitheme     : tomorrow 
+highlighter : highlight.js
+hitheme     : GitHub 
 mode        : selfcontained
 ext_widgets : {rCharts: "libraries/dataTables"}
 ---
@@ -15,13 +16,13 @@ This shiny application is intended as a didactic tool to help visualize some sam
 
 The application provides examples of sampling strategies commonly used in surveys. The dataset itself represents a sample of the US population, but for the purposes of this application is presented as data on a complete fictious population (which wierdly resembles the US population).
 
-The data comes from the National Health and Nutrition Examination Survey. It includes 4000 observations about demographic information (age, sex, poverty status) and dietary practices (daily energy [calories], protein, carbs and fat intake) of US individuals.
+The data comes from the [National Health and Nutrition Examination Survey](http://wwwn.cdc.gov/nchs/nhanes/search/nhanes11_12.aspx). It includes 4000 observations about demographic information (age, sex, poverty status) and dietary practices (daily energy [calories], protein, carbs and fat intake) of US individuals.
 
 You can access the app in [https://odeleon.shinyapps.io/sampling/](https://odeleon.shinyapps.io/sampling/).
 
 ---
 
-## Who can use this application
+## What can you expect from this application
 
 This app was prepared as a course project for the [Developing data products](https://www.coursera.org/course/devdataprod) course.
 
@@ -32,9 +33,11 @@ You can access the source code for the application in a [github repo](https://gi
 
 ---
 
-## Examples
+The application has widgets to select which variables are mapped to the plot axes and point color (or plot facet), and to select the sampling strategy to visualize and enable highlighting of "selected individuals".
 
-- Use cases
+Follows an image depicting a plot obtained from the application, showing the "population" faceted by poverty level, with red circles highlighting the individuals selected by simple random sampling:
+
+![Example plot](./content/example.png)
 
 ---
 
@@ -52,25 +55,44 @@ cat("<div style='float:left;width:78%;'>")
 <li><p>More example data, such as the <code>quakes</code> dataset which is shipped with base R and a sample shown below using the <code>rCharts</code> package:</p></li>
 </ul>
 
-```{r ichart, results = 'asis', echo = FALSE, message = FALSE, cache=FALSE}
+</div>
+<div style='float:right;width:18.5%;border:3px solid red;'>
+<b>Vote on the poll!</b><div style='height:10px'></div>
+
+```{r results = 'asis', echo = FALSE, message = FALSE, cache=FALSE}
+cat(readLines(con = "content/poll.html"))
+```
+
+</div>
+
+
+</div>
+<div style='float:left;width:51%;'>
+
+<pre><code style='font-size: 80%;'>library(package = rCharts)
+n1 &lt;- dTable(quakes[sample(1:nrow(quakes), 100), ],
+             iDisplayLength = 5,
+             bLengthChange = FALSE,
+             bFilter = FALSE,
+             bInfo = FALSE,
+             width = &quot;100%&quot;)
+n1$print(&#39;chart1&#39;)
+</code></pre>
+</div>
+<div style='float:right;width:49%;'>
+
+```{r table, message = FALSE, echo = FALSE, cache=FALSE}
 library(package = rCharts)
-library(package = dplyr)
 
-datasets <- as.data.frame(data()$results, stringsAsFactors = FALSE) %>%
-    filter(Item %in% c("airquality", "quakes", "faithful"))
-
-haireye = as.data.frame(HairEyeColor)
 n1 <- dTable(quakes[sample(1:nrow(quakes), 100), ],
              iDisplayLength = 5,
              bLengthChange = FALSE,
-             bFilter = FALSE)
+             bFilter = FALSE,
+             bInfo = FALSE,
+             width = "100%")
+```
 
-cat("</div>",
-    "<div style='float:right;width:18.5%;border:3px solid red;'>",
-    "<b>Vote on the poll!</b><div style='height:3px'></div>", sep = "\n")
-cat(readLines(con = "content/poll.html"))
-cat("</div>")
-
+```{r output_table, results = 'asis', echo = FALSE, message = FALSE, cache=FALSE}
 n1$print('chart1')
 ```
 
