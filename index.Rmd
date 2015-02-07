@@ -11,8 +11,6 @@ ext_widgets : {rCharts: "libraries/dataTables"}
 
 ## What is this application for?
 
-- Overview
-
 This shiny application is intended as a didactic tool to help visualize some sampling strategies. A dataset is provided and a responsive interface presented to explore some variables and visualize which elements get selected.
 
 The application provides examples of sampling strategies commonly used in surveys. The dataset itself represents a sample of the US population, but for the purposes of this application is presented as data on a complete fictious population (which wierdly resembles the US population).
@@ -38,22 +36,40 @@ You can access the source code for the application in a [github repo](https://gi
 
 - Use cases
 
-```{r ichart, results = 'asis', echo = FALSE, message = FALSE}
-require(rCharts)
-haireye = as.data.frame(HairEyeColor)
-n1 <- nPlot(Freq ~ Hair, 
-  group = 'Eye',
-  data = subset(haireye, Sex == 'Male'),
-  type = 'multiBarChart'
-)
-n1$print('chart1')
-```
-
-
-
-
 ---
 
 ## Future development
 
-- Future improvement
+```{r results = 'asis', echo=FALSE, cache=FALSE}
+cat("<div style='float:left;width:78%;'>")
+```
+
+
+<p>The application could be further developed to include:</p>
+
+<ul>
+<li><p>More sampling strategies and some theory / math behind each sampling strategy</p></li>
+<li><p>More example data, such as the <code>quakes</code> dataset which is shipped with base R and shown below using the <code>rCharts</code> package:</p></li>
+</ul>
+
+```{r ichart, results = 'asis', echo = FALSE, message = FALSE, cache=FALSE}
+library(package = rCharts)
+library(package = dplyr)
+
+datasets <- as.data.frame(data()$results, stringsAsFactors = FALSE) %>%
+    filter(Item %in% c("airquality", "quakes", "faithful"))
+
+haireye = as.data.frame(HairEyeColor)
+n1 <- dTable(quakes, iDisplayLength = 5,
+             bLengthChange = FALSE,
+             bFilter = FALSE)
+
+cat("</div>",
+    "<div style='float:right;width:18.5%;border:3px solid red;'>",
+    "<b>Vote on the poll!</b><div style='height:3px'></div>", sep = "\n")
+cat(readLines(con = "content/poll.html"))
+cat("</div>")
+
+n1$print('chart1')
+```
+
