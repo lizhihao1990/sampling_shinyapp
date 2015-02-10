@@ -1,5 +1,6 @@
 # Used packages
-library(package = ggplot2)  # Graphics
+library(package = ggvis)  # Graphics
+library(package = RColorBrewer) # Colors
 library(package = markdown) # Process md files
 library(package = tidyr)    # Re structure data
 library(package = magrittr) # Piping
@@ -11,51 +12,67 @@ source("./scripts/common_elements.R")
 # Get data
 source("./scripts/get_data.R")
 
-shinyServer(function(input, output) {
-  output$plot <- renderPlot({
+shinyServer(function(input, output, session) {
+  reactive({
     xvar <- axis_vars$name[axis_vars$label==input$xvar]
     yvar <- axis_vars$name[axis_vars$label==input$yvar]
     colorvar <- aes_vars$name[aes_vars$label==input$colorvar]
     samp_strat <- samp_strats$name[samp_strats$label==input$samp_strat]
     
-    use_data <- nhanes_data %>%
-      mutate(size = as.logical(status == "immigrant"))
-    
-    if(!input$emph) use_data$size <- TRUE
-    
-    set.seed(2014-10-05)
-    inter_plot <- 
-      ggplot(data=use_data,
-             aes_string(x = xvar, y=yvar)) +
-      guides(size="none") +
-      labs(x = input$xvar, y = input$yvar,
-           fill = input$colorvar) +
-      scale_fill_brewer(palette = "Set1") +
-      scale_size_manual(values=c(2,4)) +
-      ylim(range(nhanes_data[, yvar])) +
-      theme_light() +
-      theme(legend.position = "bottom",
-            legend.background = element_rect(fill = "gray95"))
-    
-    if(input$facet){
-      inter_plot <- inter_plot +
-        geom_jitter(shape=21, color=NA, fill = "black",
-                    aes_string(size = "size")) +
-        facet_grid(facets = paste(". ~", colorvar),
-                   scales = "free_x", space = "free_x")
-    } else {
-      inter_plot <- inter_plot +
-        geom_jitter(shape=21, color=NA,
-                    aes_string(size = "size", fill=colorvar)) +
-        xlim(range(nhanes_data[, xvar]))
-    }
-    
-    if(input$sample){
-      inter_plot <- inter_plot +
-        geom_point(shape=21, size=4, fill=NA, aes_string(color = samp_strat)) +
-        scale_color_manual(values = c(NA, "red")) +
-        guides(color="none")
-    }
-    inter_plot
+    xvar_name <- input$xvar
+    yvar_name <- input$yvar
+    colorvar_name <- input$colorvar
+    facet <- input$facet
+    show_sample <- input$show_sample
+    emph <- input$emph
   })
+  
+  # use_data <- 
+    reactive({
+      use_data <-nhanes_data %>%
+    mutate(size = as.numeric(status == "immigrant")) %>%
+    select_(.dots = list(x = xvar, y = yvar, "size",
+                         color = colorvar, samp_strat = samp_strat)) %>%
+    mutate(x = jitter(x, 1), y = jitter(y, 1))
+    use_data
+    })
+  
+  set.seed(2014-10-05)
+  
+    if(!emph) use_data$size <- 1
+    
+    inter_plot <- 
+      ggvis(data=use_data, x = ~x, y = ~y) %>%
+      layer_points(fill = ~color, size = ~factor(size)) %>%
+      add_axis("x", title = xvar_name) %>%
+      add_axis("y", title = yvar_name) %>%
+      add_legend(scales = "fill", title = colorvar_name) %>% 
+      hide_legend(scales = "size") %>%
+      scale_nominal(property = "size", range = c(5, 20))
+  
+    if(facet){
+      inter_plot <- inter_plot %>% 
+        scale_nominal(property = "fill",
+                      range = c("black", "black")) %>%
+        group_by(color) %>%
+        subvis()
+    } else {
+      inter_plot <- inter_plot %>% 
+        scale_nominal(property = "fill",
+                      range = brewer.pal(n = max(3, length(table(use_data$color))),
+                                         name = "Set1"))
+    }
+    
+#     if(show_sample){
+#       inter_plot <- inter_plot %>%
+#         filter(samp_strat) %>%
+#         layer_points(stroke = "sampled", fillOpacity = 0) %>% 
+#         scale_nominal(property = "stroke", range = c("purple", "red")) %>%
+#         hide_legend("stroke")
+#     }
+    
+    bind_shiny(vis = inter_plot,
+               plot_id = "sample_plot",
+               controls_id = "plot_ui")
+  # })
 })

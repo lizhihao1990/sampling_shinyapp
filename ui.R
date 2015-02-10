@@ -1,3 +1,6 @@
+# Load used packages
+library(package = ggvis)
+
 # Elements common to the UI and the server
 source("./scripts/common_elements.R")
 
@@ -12,7 +15,8 @@ shinyUI(
                  wellPanel(
                    fluidRow(
                      column(3, selectInput("xvar", "x-axis variable", axis_vars$label,
-                                           selected = "Daily protein intake (g)")),
+                                           selected = "Daily protein intake (g)"),
+                            uiOutput("plot_ui")),
                      column(3, selectInput("yvar", "y-axis variable", axis_vars$label,
                                            selected = "Daily carb intake (g)"),
                             checkboxInput("emph", "Emphasize immigrant status", value=FALSE)),
@@ -21,10 +25,10 @@ shinyUI(
                             checkboxInput("facet", "Use facet instead of color", value=FALSE)),
                      column(3, selectInput("samp_strat", "Sampling strategy", samp_strats$label,
                                            selected = "Simple random sampling"),
-                            checkboxInput("sample", "Enable sampling", value=FALSE))
+                            checkboxInput("show_sample", "Enable sampling", value=FALSE))
                      ))),
-               fluidRow(
-                 plotOutput("plot")
+               mainPanel(
+                 ggvisOutput(plot_id = "sample_plot")
                )
              )
     )
