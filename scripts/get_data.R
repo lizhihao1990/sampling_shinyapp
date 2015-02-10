@@ -1,8 +1,5 @@
 # Used packages
 library(package = foreign)  # Read SAS xport data
-library(package = ggplot2)  # Graphics
-library(package = tidyr)    # Re structure data
-library(package = magrittr) # Piping
 library(package = dplyr)    # data.frames manipulation
 
 
